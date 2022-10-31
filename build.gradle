@@ -1,0 +1,54 @@
+plugins {
+    id 'org.springframework.boot' version '3.0.0-RC1'
+    id 'io.spring.dependency-management' version '1.1.0'
+    id 'org.graalvm.buildtools.native' version '0.9.16'
+    id 'java'
+}
+
+group = 'com.xitee.aok'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+repositories {
+    mavenCentral()
+    maven { url 'https://repo.spring.io/milestone' }
+    maven { url 'https://repo.spring.io/release' }
+}
+
+ext {
+    set('springShellVersion', "3.0.0-M2")
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.shell:spring-shell-starter'
+    implementation 'com.openhtmltopdf:openhtmltopdf-pdfbox:1.0.10'
+    implementation 'org.jsoup:jsoup:1.15.3'
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework:spring-web' // for aot compiler
+}
+
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.shell:spring-shell-dependencies:${springShellVersion}"
+    }
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+graalvmNative {
+    binaries {
+        main {
+            buildArgs.addAll(
+                    '--initialize-at-build-time=org.apache.commons.logging.LogFactory',
+                    '-H:+AddAllCharsets'
+            )
+        }
+    }
+}

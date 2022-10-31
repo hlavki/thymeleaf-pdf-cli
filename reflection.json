@@ -1,0 +1,9 @@
+[
+  {
+    "name" : "org.thymeleaf.expression.Temporals",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allDeclaredMethods": true,
+    "allPublicMethods": true
+  }
+]
