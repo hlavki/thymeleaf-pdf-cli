@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class PdfReportCliApplication {
+public class ThymeleafPdfCliApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(PdfReportCliApplication.class, args);
+        SpringApplication.run(ThymeleafPdfCliApplication.class, args);
     }
 
 }
