@@ -2,7 +2,7 @@ name: GraalVM Native Image builds
 on: [push, pull_request]
 jobs:
   build:
-    name: HelloWorld on ${{ matrix.os }}
+    name: Thymeleaf PDF Cli Native on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -20,8 +20,15 @@ jobs:
         run: |
           ./gradlew nativeCompile
 
-#      - name: Upload binary
-#        uses: actions/upload-artifact@v2
-#        with:
-#          name: helloworld-${{ matrix.os }}
-#          path: helloworld*
+      - name: Package Application
+        run: |
+          cd build/native
+          mkdir -p nativeCompile/templates
+          jar -cfM thymeleaf-pdf-cli.zip nativeCompile
+          cd ../..
+
+      - name: Upload binary
+        uses: actions/upload-artifact@v3
+        with:
+          name: thymeleaf-pdf-cli-${{ matrix.os }}
+          path: build/native/thymeleaf-pdf-cli.zip
