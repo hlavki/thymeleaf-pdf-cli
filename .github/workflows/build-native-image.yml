@@ -22,15 +22,12 @@ jobs:
 
       - name: Package Application
         run: |
-          cd build/native
-          mkdir -p nativeCompile/templates
-          mv nativeCompile thymeleaf-pdf-cli
-          cp -r ../../src/main/sample-template thymeleaf-pdf-cli/
-          jar -cfM thymeleaf-pdf-cli.zip thymeleaf-pdf-cli
-          cd ../..
+          mkdir -p build/native/nativeCompile/templates
+          mv build/native/nativeCompile build/native/thymeleaf-pdf-cli
+          cp -r src/main/sample-template build/native/thymeleaf-pdf-cli
 
       - name: Upload binary
         uses: actions/upload-artifact@v3
         with:
           name: thymeleaf-pdf-cli-${{ matrix.os }}
-          path: build/native/thymeleaf-pdf-cli.zip
+          path: build/native/thymeleaf-pdf-cli

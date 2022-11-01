@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.ISpringTemplateEngine;
 
@@ -22,7 +21,7 @@ public class ReportService {
 
     private static final Logger LOG = LoggerFactory.getLogger(ReportService.class);
 
-    @Value("${report.templates.folder:.}")
+    @Value("${report.templates.folder}")
     String templateFolder;
 
     private final ISpringTemplateEngine templateEngine;
@@ -32,14 +31,14 @@ public class ReportService {
     }
 
     public void generatePdf(Path templatePath, Path outputFile, Context context) {
-        Path contextPath = Path.of(templateFolder);
+        String contextPath = Path.of(templateFolder).toAbsolutePath().toUri().toString();
         String templateName = templatePath.getFileName().toString();
         String html = templateEngine.process(templateName, context);
         try (OutputStream outputStream = new FileOutputStream(outputFile.toFile())) {
             final PdfRendererBuilder builder = new PdfRendererBuilder();
             builder.useFastMode();
             String xhtml = convertToXhtml(html);
-            builder.withHtmlContent(xhtml, contextPath.toUri().toString());
+            builder.withHtmlContent(xhtml, contextPath);
             builder.toStream(outputStream);
             builder.run();
         } catch (IOException e) {

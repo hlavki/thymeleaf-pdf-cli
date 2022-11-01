@@ -20,7 +20,7 @@ public class ReportConfig {
     private static final Logger LOG = LoggerFactory.getLogger(ReportConfig.class);
     private static final String HTML_SUFFIX = ".html";
 
-    @Value("${report.templates.folder:templates/}")
+    @Value("${report.templates.folder}")
     String templateFolder;
 
     @Bean
