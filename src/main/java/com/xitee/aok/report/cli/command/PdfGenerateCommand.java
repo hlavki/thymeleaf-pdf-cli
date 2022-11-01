@@ -1,7 +1,6 @@
 package com.xitee.aok.report.cli.command;
 
 import com.xitee.aok.report.cli.service.ReportService;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -35,7 +34,7 @@ public class PdfGenerateCommand {
     }
 
     @ShellMethod(key = "gen", value = "Generate PDF report")
-    public void generate(@ShellOption(value = "-t", help = "Path to template HTML file") Path templatePath,
+    public void generate(@ShellOption(value = "-t", help = "Path to template HTML file", defaultValue = "index.html") Path templatePath,
                          @ShellOption(value = "-d", help = "Template JSON data file") Path jsonData,
                          @ShellOption(value = "-o", help = "Output PDF file path", defaultValue = "output.pdf") Path outputFile) {
 

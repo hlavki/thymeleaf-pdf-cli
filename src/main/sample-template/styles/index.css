@@ -1,0 +1,11 @@
+@import 'core/typography.css';
+@import 'core/layout.css';
+@import 'components/header.css';
+@import 'components/footer.css';
+@import 'components/logo.css';
+@import 'components/pagination.css';
+
+@page {
+  margin: 4cm 1cm 2cm 2.4cm;
+  size: A4 portrait;
+}

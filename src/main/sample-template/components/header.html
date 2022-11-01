@@ -1,0 +1,28 @@
+<div th:fragment="header" class="header">
+  <div class="header__addressee">
+    <span class="capture">
+      Company co.
+    </span>
+
+    <div class="text-block">
+      <div th:text="${#strings.defaultString(user.firstName,'')} + ' ' + ${#strings.defaultString(user.lastName,'')}">
+      </div>
+      <div th:text="${#strings.defaultString(user.street,'')} + ' ' + ${#strings.defaultString(user.houseNumber,'')}">
+      </div>
+      <div th:text="${#strings.defaultString(user.zipCode,'')} + ' ' + ${#strings.defaultString(user.city,'')}"></div>
+    </div>
+  </div>
+
+  <div class="header__company">
+    <div class="header__company__title">Company co.</div>
+    <div class="header__company__title">Best gmbh.</div>
+
+    <div class="text-block">
+      <div class="header__hotline">Service-Hotline: 0000 000 0000</div>
+    </div>
+
+    <div class="text-block">
+      Datum: <span th:text="${#temporals.format(creationDate,'dd.MM.yyyy')}"></span>
+    </div>
+  </div>
+</div>

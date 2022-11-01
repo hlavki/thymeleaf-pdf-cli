@@ -24,7 +24,9 @@ jobs:
         run: |
           cd build/native
           mkdir -p nativeCompile/templates
-          jar -cfM thymeleaf-pdf-cli.zip nativeCompile
+          mv nativeCompile thymeleaf-pdf-cli
+          cp -r src/main/sample-template thymeleaf-pdf-cli/
+          jar -cfM thymeleaf-pdf-cli.zip thymeleaf-pdf-cli
           cd ../..
 
       - name: Upload binary

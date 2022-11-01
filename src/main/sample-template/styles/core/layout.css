@@ -1,0 +1,72 @@
+.text-block {
+  padding-top: 0.25cm;
+}
+
+table {
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+table th,
+table td {
+  border: 1px solid #151515;
+}
+
+th, td {
+  padding: 0.3cm 0.6cm;
+}
+
+.layout-table th,
+.layout-table td {
+  padding: 0.13cm 0.02cm;
+  border: none;
+  table-layout: auto;
+}
+
+.layout-table .layout-table__label {
+  padding-right: 1cm;
+  vertical-align: top;
+}
+
+.page-break {
+  page-break-before: always;
+}
+
+.nbsp {
+  white-space: nowrap;
+}
+
+.signature {
+  border-top: 1px solid black;
+  width: 100%;
+  margin-top: 30px;
+}
+
+.signature div {
+  display: inline-block;
+}
+
+.signature div:nth-child(1) {
+  width: 25%;
+}
+
+.signature div:nth-child(2) {
+  width: 70%;
+  text-align: right;
+}
+
+.layout-table.is-centered {
+  margin: 0 auto;
+}
+
+.treatment-cert__claim {
+  padding-top: 1cm;
+}
+
+.letter__body {
+  padding: 0 1.5cm 0 0;
+}
+
+.letter__title {
+  margin-top: 1.3cm;
+}
