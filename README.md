@@ -6,14 +6,14 @@ This tool takes html template, enrich it with data from json file and finally re
 Sample Usage (Linux):
 ```bash
 cd thymeleaf-pdf-cli
-cp sample-template/* templates/
+cp -r sample-template/* templates/
 ./thymeleaf-pdf-cli gen -t index.html -d templates/data.json -o output.pdf
 ```
 
 Sample Usage (Windows):
 ```bash
 cd thymeleaf-pdf-cli
-cp sample-template/* templates/
+xcopy sample-template templates /E
 thymeleaf-pdf-cli.exe gen -t index.html -d templates/data.json -o output.pdf
 ```
 
