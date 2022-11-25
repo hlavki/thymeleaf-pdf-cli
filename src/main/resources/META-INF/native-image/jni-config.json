@@ -1,4 +1,15 @@
 [
+  {
+    "name":"java.awt.Insets",
+    "methods":[{"name":"<init>","parameterTypes":["int","int","int","int"] }]
+  },
+  {
+    "name":"java.awt.Toolkit",
+    "methods":[
+      {"name":"getDefaultToolkit","parameterTypes":[] }, 
+      {"name":"getFontMetrics","parameterTypes":["java.awt.Font"] }
+    ]
+  },
 {
   "name":"[Lcom.sun.management.internal.DiagnosticCommandArgumentInfo;"
 },
@@ -79,10 +90,6 @@
     {"name":"maxBitSize"}
   ]
 },
-  {
-    "name": "java.awt.Toolkit",
-    "methods":[{"name":"getDefaultToolkit","parameterTypes":[] }]
-  },
 {
   "name":"java.lang.Boolean",
   "methods":[{"name":"getBoolean","parameterTypes":["java.lang.String"] }]
