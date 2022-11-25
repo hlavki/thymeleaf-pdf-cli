@@ -1,5 +1,13 @@
 name: GraalVM Native Image builds
-on: [push, pull_request]
+
+on:
+  push:
+    branches:
+      - '*'
+    tags:
+      - v*
+  pull_request:
+
 jobs:
   build:
     name: Thymeleaf PDF Cli Native on ${{ matrix.os }}
