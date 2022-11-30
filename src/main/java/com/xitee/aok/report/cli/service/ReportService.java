@@ -32,7 +32,7 @@ public class ReportService {
 
     public void generatePdf(Path templatePath, Path outputFile, Context context) {
         String contextPath = Path.of(templateFolder).toAbsolutePath().toUri().toString();
-        String templateName = templatePath.getFileName().toString();
+        String templateName = templatePath.getParent().resolve(templatePath.getFileName()).toString();
         String html = templateEngine.process(templateName, context);
         try (OutputStream outputStream = new FileOutputStream(outputFile.toFile())) {
             final PdfRendererBuilder builder = new PdfRendererBuilder();
