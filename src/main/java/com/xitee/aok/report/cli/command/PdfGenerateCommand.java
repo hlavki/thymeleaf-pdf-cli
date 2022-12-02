@@ -34,13 +34,13 @@ public class PdfGenerateCommand {
     }
 
     @ShellMethod(key = "gen", value = "Generate PDF report")
-    public void generate(@ShellOption(value = "-t", help = "Path to template HTML file", defaultValue = "index.html") Path templatePath,
+    public void generate(@ShellOption(value = "-t", help = "Template ID") String templateId,
                          @ShellOption(value = "-d", help = "Template JSON data file") Path jsonData,
                          @ShellOption(value = "-o", help = "Output PDF file path", defaultValue = "output.pdf") Path outputFile) {
 
         try {
             Context context = prepareContext(jsonData.toFile());
-            reportService.generatePdf(templatePath, outputFile, context);
+            reportService.generatePdf(templateId, outputFile, context);
         } catch (IOException e) {
             e.printStackTrace();
         }

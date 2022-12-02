@@ -1,5 +1,7 @@
 package com.xitee.aok.report.cli.config;
 
+import com.xitee.aok.report.cli.util.DocumentTemplateResolver;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +20,7 @@ import java.nio.file.Path;
 public class ReportConfig {
 
     private static final Logger LOG = LoggerFactory.getLogger(ReportConfig.class);
-    private static final String HTML_SUFFIX = ".html";
+    public static final String HTML_SUFFIX = ".html";
 
     @Value("${report.templates.folder}")
     String templateFolder;
@@ -26,7 +28,7 @@ public class ReportConfig {
     @Bean
     public ITemplateResolver templateResolver() {
         LOG.info("Templates folder was configured to {}", Path.of(templateFolder).toAbsolutePath());
-        final FileTemplateResolver templateResolver = new FileTemplateResolver();
+        final FileTemplateResolver templateResolver = new DocumentTemplateResolver();
         String prefix = templateFolder.endsWith("/") ? templateFolder : templateFolder + "/";
         templateResolver.setPrefix(prefix);
         templateResolver.setSuffix(HTML_SUFFIX);

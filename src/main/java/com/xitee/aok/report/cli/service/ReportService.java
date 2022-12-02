@@ -1,5 +1,6 @@
 package com.xitee.aok.report.cli.service;
 
+import com.xitee.aok.report.cli.util.TemplateUtils;
 import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
 
 import org.jsoup.Jsoup;
@@ -22,7 +23,7 @@ public class ReportService {
     private static final Logger LOG = LoggerFactory.getLogger(ReportService.class);
 
     @Value("${report.templates.folder}")
-    String templateFolder;
+    Path templateRootFolder;
 
     private final ISpringTemplateEngine templateEngine;
 
@@ -30,19 +31,18 @@ public class ReportService {
         this.templateEngine = templateEngine;
     }
 
-    public void generatePdf(Path templatePath, Path outputFile, Context context) {
-        String contextPath = Path.of(templateFolder).toAbsolutePath().toUri().toString();
-        String templateName = templatePath.getParent().resolve(templatePath.getFileName()).toString();
-        String html = templateEngine.process(templateName, context);
+    public void generatePdf(String templateId, Path outputFile, Context context) {
         try (OutputStream outputStream = new FileOutputStream(outputFile.toFile())) {
+            String template = TemplateUtils.getTemplate(templateId, templateRootFolder);
+            String html = templateEngine.process(template, context);
             final PdfRendererBuilder builder = new PdfRendererBuilder();
             builder.useFastMode();
             String xhtml = convertToXhtml(html);
-            builder.withHtmlContent(xhtml, contextPath);
+            builder.withHtmlContent(xhtml, getContextPath(templateId));
             builder.toStream(outputStream);
             builder.run();
         } catch (IOException e) {
-            throw new RuntimeException("Cannot generate PDF from template " + templatePath, e);
+            throw new RuntimeException("Cannot generate PDF from template " + templateId, e);
         }
         LOG.info("PDF report was written to {}", outputFile.toAbsolutePath());
     }
@@ -54,21 +54,9 @@ public class ReportService {
         return document.html();
     }
 
-    //    private ITemplateResolver templateResolver(Path contextPath) {
-    //        final FileTemplateResolver templateResolver = new FileTemplateResolver();
-    //        templateResolver.setPrefix(contextPath.toString() + "/");
-    //        templateResolver.setSuffix(".html");
-    //        templateResolver.setTemplateMode(TemplateMode.HTML);
-    //        templateResolver.setCharacterEncoding(StandardCharsets.UTF_8.toString());
-    //        templateResolver.setCacheable(true);
-    //        return templateResolver;
-    //    }
-    //
-    //    private ISpringTemplateEngine templateEngine(Path contextPath) {
-    //        // TODO: Redirect htmltopdf logs
-    //        // https://stackoverflow.com/questions/9729147/turning-on-flying-saucer-java-util-logging-output
-    //        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-    //        templateEngine.setTemplateResolver(templateResolver(contextPath));
-    //        return templateEngine;
-    //    }
+    private String getContextPath(String templateId) throws IOException {
+        String contextPath = templateRootFolder.resolve(TemplateUtils.getParentPath(templateId)).toUri() + "";
+        contextPath = !contextPath.endsWith("/") ? contextPath + "/" : contextPath;
+        return contextPath;
+    }
 }
