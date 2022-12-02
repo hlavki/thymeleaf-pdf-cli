@@ -1,6 +1,6 @@
 package com.xitee.aok.report.cli.command;
 
-import com.xitee.aok.report.cli.service.ReportService;
+import com.xitee.aok.report.cli.service.TemplateService;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -18,19 +18,22 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.regex.Pattern;
 
 @ShellComponent
 public class PdfGenerateCommand {
-    private static final Logger LOG = LoggerFactory.getLogger(PdfGenerateCommand.class);
+    private static final Logger log = LoggerFactory.getLogger(PdfGenerateCommand.class);
     public static final Pattern DATE_PATTERN = Pattern.compile("^([0-9]{4}).(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$");
+    public static final Pattern DATE_TIME_PATTERN = Pattern.compile(
+        "^(\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d\\.\\d+)|(\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d)|(\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d)$");
 
-    private final ReportService reportService;
+    private final TemplateService templateService;
 
-    public PdfGenerateCommand(ReportService reportService) {
-        this.reportService = reportService;
+    public PdfGenerateCommand(TemplateService templateService) {
+        this.templateService = templateService;
     }
 
     @ShellMethod(key = "gen", value = "Generate PDF report")
@@ -40,7 +43,7 @@ public class PdfGenerateCommand {
 
         try {
             Context context = prepareContext(jsonData.toFile());
-            reportService.generatePdf(templateId, outputFile, context);
+            templateService.generatePdf(templateId, outputFile, context);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -62,7 +65,7 @@ public class PdfGenerateCommand {
         return ctx;
     }
 
-    private void convertDates(Map<String, Object> dataMap) {
+    void convertDates(Map<String, Object> dataMap) {
         for (Map.Entry<String, ?> entry : dataMap.entrySet()) {
             Object value = entry.getValue();
             if (value instanceof Map) {
@@ -70,9 +73,13 @@ public class PdfGenerateCommand {
             } else if (value instanceof String) {
                 String strValue = (String) value;
                 if (DATE_PATTERN.matcher(strValue).matches()) {
-                    LOG.info("Converting {} with value {} to LocalDate", entry.getKey(), strValue);
+                    log.debug("Converting {} with value {} to LocalDate", entry.getKey(), strValue);
                     LocalDate date = LocalDate.parse(strValue, DateTimeFormatter.ISO_DATE);
                     dataMap.put(entry.getKey(), date);
+                } else if (DATE_TIME_PATTERN.matcher(strValue).matches()) {
+                    log.debug("Converting {} with value {} to LocalDateTime", entry.getKey(), strValue);
+                    LocalDateTime dateTime = LocalDateTime.parse(strValue, DateTimeFormatter.ISO_DATE_TIME);
+                    dataMap.put(entry.getKey(), dateTime);
                 }
             }
         }

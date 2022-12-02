@@ -18,16 +18,16 @@ import java.io.OutputStream;
 import java.nio.file.Path;
 
 @Service
-public class ReportService {
+public class TemplateService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ReportService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TemplateService.class);
 
     @Value("${report.templates.folder}")
     Path templateRootFolder;
 
     private final ISpringTemplateEngine templateEngine;
 
-    ReportService(ISpringTemplateEngine templateEngine) {
+    TemplateService(ISpringTemplateEngine templateEngine) {
         this.templateEngine = templateEngine;
     }
 
