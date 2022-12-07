@@ -1,6 +1,7 @@
 package com.xitee.aok.report.cli.command;
 
 import com.xitee.aok.report.cli.service.TemplateService;
+import com.xitee.aok.report.cli.util.SpelCompliantMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -56,7 +57,7 @@ public class PdfGenerateCommand {
             .disable(SerializationFeature.WRAP_ROOT_VALUE, SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
             .disable(DeserializationFeature.UNWRAP_ROOT_VALUE).build();
 
-        Map<String, Object> dataMap = jsonMapper.readValue(jsonFile, Map.class);
+        Map<String, Object> dataMap = jsonMapper.readValue(jsonFile, SpelCompliantMap.class);
         convertDates(dataMap);
 
         Context ctx = new Context();
