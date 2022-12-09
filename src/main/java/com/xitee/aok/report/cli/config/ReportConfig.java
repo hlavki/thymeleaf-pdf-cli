@@ -1,6 +1,11 @@
 package com.xitee.aok.report.cli.config;
 
 import com.xitee.aok.report.cli.util.DocumentTemplateResolver;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +29,15 @@ public class ReportConfig {
 
     @Value("${report.templates.folder}")
     String templateFolder;
+
+    @Bean
+    JsonMapper jsonMapper() {
+        return JsonMapper.builder()
+            .serializationInclusion(JsonInclude.Include.NON_EMPTY)
+            .addModule(new JavaTimeModule())
+            .disable(SerializationFeature.WRAP_ROOT_VALUE, SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+            .disable(DeserializationFeature.UNWRAP_ROOT_VALUE).build();
+    }
 
     @Bean
     public ITemplateResolver templateResolver() {
