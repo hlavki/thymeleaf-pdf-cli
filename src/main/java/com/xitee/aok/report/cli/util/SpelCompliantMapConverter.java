@@ -2,7 +2,6 @@ package com.xitee.aok.report.cli.util;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
-import com.fasterxml.jackson.databind.util.Converter;
 import com.fasterxml.jackson.databind.util.StdConverter;
 
 import java.util.ArrayList;
