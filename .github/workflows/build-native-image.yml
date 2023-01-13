@@ -32,7 +32,6 @@ jobs:
         run: |
           mkdir -p build/native/nativeCompile/templates
           mv build/native/nativeCompile build/native/thymeleaf-pdf-cli
-          cp -r src/main/sample-template build/native/thymeleaf-pdf-cli
 
       - name: Upload binary
         uses: actions/upload-artifact@v3

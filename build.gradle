@@ -16,7 +16,7 @@ repositories {
 }
 
 ext {
-    set('springShellVersion', "3.0.0-M2")
+    set('springShellVersion', "3.0.0-RC1")
 }
 
 dependencies {
@@ -27,8 +27,11 @@ dependencies {
     implementation 'org.jsoup:jsoup:1.15.3'
     implementation 'com.fasterxml.jackson.core:jackson-databind'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'org.springframework:spring-web' // for aot compiler
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.shell:spring-shell-test'
+    testImplementation 'org.springframework.shell:spring-shell-test-autoconfigure'
 }
 
 
