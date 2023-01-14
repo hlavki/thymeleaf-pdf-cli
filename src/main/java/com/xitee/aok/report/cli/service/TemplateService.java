@@ -35,7 +35,7 @@ public class TemplateService {
         "^(\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d\\.\\d+)|(\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d)|(\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d)$");
 
     @Value("${report.templates.folder}")
-    Path templateRootFolder;
+    Path templatesRootFolder;
 
     private final ISpringTemplateEngine templateEngine;
 
@@ -47,6 +47,20 @@ public class TemplateService {
     }
 
     public void generatePdf(String templateId, Path jsonData, Path outputFile) {
+        try (OutputStream outputStream = new FileOutputStream(outputFile.toFile())) {
+            Map<String, Object> dataMap = jsonMapper.readValue(jsonData.toFile(), SpelCompliantMap.class);
+            convertDates(dataMap);
+
+            Context context = new Context();
+            context.setVariables(dataMap);
+
+            generatePdf(templateId, context, outputStream);
+        } catch (IOException e) {
+            throw new RuntimeException("Cannot generate PDF from template " + templateId, e);
+        }
+    }
+
+    public void generatePdf(String templateId, Path jsonData, OutputStream outputStream) {
         try {
             Map<String, Object> dataMap = jsonMapper.readValue(jsonData.toFile(), SpelCompliantMap.class);
             convertDates(dataMap);
@@ -54,26 +68,22 @@ public class TemplateService {
             Context context = new Context();
             context.setVariables(dataMap);
 
-            generatePdf(templateId, context, outputFile);
+            generatePdf(templateId, context, outputStream);
         } catch (IOException e) {
             throw new RuntimeException("Cannot generate PDF from template " + templateId, e);
         }
     }
 
-    public void generatePdf(String templateId, Context context, Path outputFile) {
-        try (OutputStream outputStream = new FileOutputStream(outputFile.toFile())) {
-            String template = TemplateUtils.getTemplate(templateId, templateRootFolder);
-            String html = templateEngine.process(template, context);
-            final PdfRendererBuilder builder = new PdfRendererBuilder();
-            builder.useFastMode();
-            String xhtml = convertToXhtml(html);
-            builder.withHtmlContent(xhtml, getContextPath(templateId));
-            builder.toStream(outputStream);
-            builder.run();
-        } catch (IOException e) {
-            throw new RuntimeException("Cannot generate PDF from template " + templateId, e);
-        }
-        log.info("PDF report was written to {}", outputFile.toAbsolutePath());
+    public void generatePdf(String templateId, Context context, OutputStream outputStream) throws IOException {
+        String template = TemplateUtils.getTemplate(templateId, templatesRootFolder);
+        String html = templateEngine.process(template, context);
+        final PdfRendererBuilder builder = new PdfRendererBuilder();
+        builder.useFastMode();
+        String xhtml = convertToXhtml(html);
+        builder.withHtmlContent(xhtml, getContextPath(templateId));
+        builder.toStream(outputStream);
+        builder.run();
+        log.info("PDF report for template ID {} was generated", templateId);
     }
 
     public String convertToXhtml(String html) {
@@ -84,7 +94,7 @@ public class TemplateService {
     }
 
     private String getContextPath(String templateId) throws IOException {
-        String contextPath = templateRootFolder.resolve(TemplateUtils.getParentPath(templateId)).toUri() + "";
+        String contextPath = templatesRootFolder.resolve(TemplateUtils.getParentPath(templateId)).toUri() + "";
         contextPath = !contextPath.endsWith("/") ? contextPath + "/" : contextPath;
         return contextPath;
     }

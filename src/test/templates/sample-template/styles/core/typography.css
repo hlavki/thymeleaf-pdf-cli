@@ -1,0 +1,35 @@
+@font-face {
+  font-family: Arial;
+  src: url('../../fonts/arial.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: Arial;
+  src: url('../../fonts/arial-bold.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 700;
+}
+
+body {
+  font-family: Arial, serif;
+  font-weight: 300;
+  font-size: 11pt;
+  line-height: 118%;
+}
+
+strong {
+  font-weight: 700;
+}
+
+.capture {
+  font-size: 6pt;
+  line-height: 108%;
+}
+
+h1 {
+  padding-bottom: 0.3cm;
+  font-weight: 700;
+  font-size: 11pt;
+}

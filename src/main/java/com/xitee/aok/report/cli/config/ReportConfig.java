@@ -1,6 +1,5 @@
 package com.xitee.aok.report.cli.config;
 
-import com.xitee.aok.report.cli.util.DocumentTemplateResolver;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -42,7 +41,7 @@ public class ReportConfig {
     @Bean
     public ITemplateResolver templateResolver() {
         LOG.info("Templates folder was configured to {}", Path.of(templateFolder).toAbsolutePath());
-        final FileTemplateResolver templateResolver = new DocumentTemplateResolver();
+        final FileTemplateResolver templateResolver = new FileTemplateResolver();
         String prefix = templateFolder.endsWith("/") ? templateFolder : templateFolder + "/";
         templateResolver.setPrefix(prefix);
         templateResolver.setSuffix(HTML_SUFFIX);

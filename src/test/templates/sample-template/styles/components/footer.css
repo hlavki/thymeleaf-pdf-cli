@@ -1,0 +1,34 @@
+@page :first {
+  @bottom-left {
+    content: element(footer);
+  }
+}
+
+.footer {
+  width: 100%;
+  position: running(footer);
+  font-size: 6pt;
+  padding-left: 0.25cm;
+}
+
+.footer__block {
+  display: inline-block;
+  vertical-align: top;
+  line-height: 110%;
+}
+
+.footer__block:nth-child(1) {
+  width: 30%;
+}
+
+.footer__block:nth-child(2) {
+  width: 14%;
+}
+
+.footer__block:nth-child(3) {
+  width: 30%;
+}
+
+.footer__block:nth-child(4) {
+  width: 17%;
+}

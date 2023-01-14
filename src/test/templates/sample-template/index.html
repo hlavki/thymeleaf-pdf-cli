@@ -1,0 +1,21 @@
+<!DOCTYPE html PUBLIC "-//OPENHTMLTOPDF//DOC XHTML Character Entities Only 1.0//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+
+  <head>
+    <meta charset="UTF-8" content="text">
+    <link rel="stylesheet" type="text/css" media="all" href="styles/index.css"/>
+  </head>
+
+  <body>
+    <div th:insert="sample-template/components/logo :: logo"></div>
+    <div th:insert="sample-template/components/header :: header"></div>
+    <div th:insert="sample-template/components/footer :: footer"></div>
+    <div th:insert="sample-template/components/body :: main-content"/>
+
+    <p>Best Regards</p>
+    <p>
+      Your belowed company<br/>
+      Company co.
+    </p>
+  </body>
+</html>
