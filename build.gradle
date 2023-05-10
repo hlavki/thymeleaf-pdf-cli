@@ -1,7 +1,7 @@
 plugins {
-    id 'org.springframework.boot' version '3.0.4'
+    id 'org.springframework.boot' version '3.0.6'
     id 'io.spring.dependency-management' version '1.1.0'
-    id 'org.graalvm.buildtools.native' version '0.9.20'
+    id 'org.graalvm.buildtools.native' version '0.9.21'
     id 'java'
 }
 
@@ -14,7 +14,7 @@ repositories {
 }
 
 ext {
-    set('springShellVersion', "3.0.1")
+    set('springShellVersion', "3.0.3")
 }
 
 dependencies {
@@ -22,7 +22,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.shell:spring-shell-starter'
     implementation 'com.openhtmltopdf:openhtmltopdf-pdfbox:1.0.10'
-    implementation 'org.jsoup:jsoup:1.15.4'
+    implementation 'org.jsoup:jsoup:1.16.1'
     implementation 'com.fasterxml.jackson.core:jackson-databind'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
     implementation 'org.springframework:spring-web' // for aot compiler
