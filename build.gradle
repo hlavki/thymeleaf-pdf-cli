@@ -1,20 +1,21 @@
 plugins {
-    id 'org.springframework.boot' version '3.1.3'
-    id 'io.spring.dependency-management' version '1.1.3'
-    id 'org.graalvm.buildtools.native' version '0.9.24'
+    id 'org.springframework.boot' version '3.2.0'
+    id 'io.spring.dependency-management' version '1.1.4'
+    id 'org.graalvm.buildtools.native' version '0.9.28'
     id 'java'
 }
 
 group = 'com.xitee.aok'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '17'
+sourceCompatibility = '21'
 
 repositories {
     mavenCentral()
+    maven { url 'https://repo.spring.io/milestone' }
 }
 
 ext {
-    set('springShellVersion', "3.1.3")
+    set('springShellVersion', "3.2.0-RC1")
 }
 
 dependencies {
@@ -22,7 +23,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.shell:spring-shell-starter'
     implementation 'com.openhtmltopdf:openhtmltopdf-pdfbox:1.0.10'
-    implementation 'org.jsoup:jsoup:1.16.1'
+    implementation 'org.jsoup:jsoup:1.17.1'
     implementation 'com.fasterxml.jackson.core:jackson-databind'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
     implementation 'org.springframework:spring-web' // for aot compiler
