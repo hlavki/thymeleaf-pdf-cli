@@ -7,7 +7,7 @@ plugins {
 
 group = 'com.xitee.aok'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '24'
+sourceCompatibility = '23'
 
 repositories {
     mavenCentral()
