@@ -33,7 +33,7 @@ jobs:
           mv build/native/nativeCompile build/native/thymeleaf-pdf-cli
 
       - name: Upload binary
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: thymeleaf-pdf-cli-${{ matrix.os }}
           path: build/native/thymeleaf-pdf-cli
