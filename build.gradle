@@ -1,21 +1,25 @@
 plugins {
-    id 'org.springframework.boot' version '3.5.4'
+    id 'org.springframework.boot' version '4.1.1'
     id 'io.spring.dependency-management' version '1.1.7'
-    id 'org.graalvm.buildtools.native' version '0.11.0'
+    id 'org.graalvm.buildtools.native' version '1.1.11'
     id 'java'
 }
 
 group = 'com.xitee.aok'
-version = '1.0.1-SNAPSHOT'
-sourceCompatibility = '23'
+version = '1.1.0-SNAPSHOT'
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
 
 repositories {
     mavenCentral()
-    maven { url 'https://repo.spring.io/milestone' }
+    maven { url = 'https://repo.spring.io/milestone' }
 }
 
 ext {
-    set('springShellVersion', "3.4.1")
+    set('springShellVersion', "4.0.3")
 }
 
 dependencies {
@@ -23,7 +27,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.shell:spring-shell-starter'
     implementation 'com.openhtmltopdf:openhtmltopdf-pdfbox:1.0.10'
-    implementation 'org.jsoup:jsoup:1.20.1'
+    implementation 'org.jsoup:jsoup:1.23.2'
     implementation 'com.fasterxml.jackson.core:jackson-databind'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
     implementation 'org.springframework:spring-web' // for aot compiler
@@ -48,7 +52,13 @@ graalvmNative {
     binaries {
         main {
             buildArgs.addAll(
+                    // Spring Framework 7 replaced spring-jcl with real commons-logging, so
+                    // LogFactory.factories is now a WeakHashtable that PDFBox reaches and
+                    // stores in the image heap. Name the two classes rather than the package:
+                    // initializing all of impl also runs Slf4jLogFactory's initializer, which
+                    // embeds an slf4j BasicMarker that is itself only run-time initializable.
                     '--initialize-at-build-time=org.apache.commons.logging.LogFactory',
+                    '--initialize-at-build-time=org.apache.commons.logging.impl.WeakHashtable',
                     '-H:+AddAllCharsets'
             )
         }
