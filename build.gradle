@@ -52,11 +52,13 @@ graalvmNative {
     binaries {
         main {
             buildArgs.addAll(
-                    // Spring Framework 7 replaced spring-jcl with real commons-logging, whose
-                    // LogFactory.factories static field is a WeakHashtable reached via PDFBox
-                    // and stored in the image heap, so the whole package needs build-time init.
-                    '--initialize-at-build-time=org.apache.commons.logging',
-                    '--initialize-at-build-time=org.apache.commons.logging.impl',
+                    // Spring Framework 7 replaced spring-jcl with real commons-logging, so
+                    // LogFactory.factories is now a WeakHashtable that PDFBox reaches and
+                    // stores in the image heap. Name the two classes rather than the package:
+                    // initializing all of impl also runs Slf4jLogFactory's initializer, which
+                    // embeds an slf4j BasicMarker that is itself only run-time initializable.
+                    '--initialize-at-build-time=org.apache.commons.logging.LogFactory',
+                    '--initialize-at-build-time=org.apache.commons.logging.impl.WeakHashtable',
                     '-H:+AddAllCharsets'
             )
         }
