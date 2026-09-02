@@ -30,7 +30,7 @@ public class TemplateService {
 
     private static final Logger log = LoggerFactory.getLogger(TemplateService.class);
 
-    public static final Pattern DATE_PATTERN = Pattern.compile("^([0-9]{4}).(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$");
+    public static final Pattern DATE_PATTERN = Pattern.compile("^([0-9]{4})-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$");
     public static final Pattern DATE_TIME_PATTERN = Pattern.compile(
         "^(\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d\\.\\d+)|(\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d)|(\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d)$");
 
@@ -80,7 +80,7 @@ public class TemplateService {
         final PdfRendererBuilder builder = new PdfRendererBuilder();
         builder.useFastMode();
         String xhtml = convertToXhtml(html);
-        builder.withHtmlContent(xhtml, getContextPath(templateId));
+        builder.withHtmlContent(xhtml, getContextPath(template));
         builder.toStream(outputStream);
         builder.run();
         log.info("PDF report for template ID {} was generated", templateId);

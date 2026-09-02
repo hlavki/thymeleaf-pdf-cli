@@ -45,7 +45,7 @@ public final class TemplateUtils {
 
     public static String getParentPath(final String templateId) {
         String parent = templateId;
-        int idx = templateId.lastIndexOf(TEMPLATE_ID_SEPARATOR);
+        int idx = Math.max(templateId.lastIndexOf('/'), templateId.lastIndexOf(File.separatorChar));
         if (idx > -1) {
             parent = templateId.substring(0, idx);
         }
