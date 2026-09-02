@@ -52,7 +52,11 @@ graalvmNative {
     binaries {
         main {
             buildArgs.addAll(
-                    '--initialize-at-build-time=org.apache.commons.logging.LogFactory',
+                    // Spring Framework 7 replaced spring-jcl with real commons-logging, whose
+                    // LogFactory.factories static field is a WeakHashtable reached via PDFBox
+                    // and stored in the image heap, so the whole package needs build-time init.
+                    '--initialize-at-build-time=org.apache.commons.logging',
+                    '--initialize-at-build-time=org.apache.commons.logging.impl',
                     '-H:+AddAllCharsets'
             )
         }
